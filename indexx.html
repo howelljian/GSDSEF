@@ -204,6 +204,7 @@
         let totalFocusDuration = 0; // Store total focus duration
         let totalFocusCount = 0; // Store total focus count for mean calculation
         let lastFocusTime = 0; // Store last time the focus was detected
+        let points = {}
 
         // Function to set up calibration
         function setupCalibration() {
@@ -254,6 +255,11 @@
                     if (data) {
                         const x = data.x;
                         const y = data.y;
+                        
+                        
+                        console.log(data.x);
+                        console.log(data.y);
+
                         const focusedSection = getSectionByCoordinates(x, y);
                         if (focusedSection) {
                             highlightSection(focusedSection);
@@ -343,22 +349,9 @@
         }
 
         // Detect eye twitching
-        function detectEyeTwitch(focusThreshold = 300) {
-            setInterval(() => {
-                const now = new Date();
-                if (currentSection) {
-                    const timeSinceLastFocus = now.getTime() - lastFocusTime;
-                    if (timeSinceLastFocus > focusThreshold) {
-                        console.log(`Eye twitch detected! Focus lost for ${timeSinceLastFocus / 1000} seconds.`);
-                        resetFocus();
-                    }
-                }
-            }, 100); // Check every 100 milliseconds
-        }
+      
 
-        detectEyeTwitch(); // Start eye twitch detection
-
-        // Modal setup
+        
         function setupModal() {
             const modal = document.getElementById("statistics-modal");
             const btn = document.getElementById("show-statistics-button");
@@ -396,7 +389,7 @@
         // Remove flashing style after 2 seconds
         setTimeout(() => {
             randomSection.style.backgroundColor = "white";
-        }, 2000); // Flashes for 2 seconds
+        }, 500); // Flashes for 2 seconds
 
         // Schedule next flash at a random interval between 3 to 7 seconds
         setTimeout(flashRandomSection, Math.random() * 4000 + 3000);
